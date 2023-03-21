@@ -1,0 +1,23 @@
+version: "3.3"
+
+services:
+  server:
+    image: node:18.0.0
+    command: [bash, -c, "cd /usr/src/app && npm install && npm run start"]
+    env_file:
+      - ./maxmind-be/.env
+    volumes:
+      - "./maxmind-be:/usr/src/app"
+    ports:
+      - "3006:3006"
+  client:
+    image: node:18.0.0
+    command: [bash, -c, "cd /usr/src/app && npm install && npm run dev"]
+    env_file:
+      - ./maxmind-fe/.env
+    volumes:
+      - ./maxmind-fe:/usr/src/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
